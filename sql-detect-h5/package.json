@@ -1,0 +1,104 @@
+{
+    "name": "test-platform-boss",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "qa": "vue-cli-service serve --open --mode qa",
+        "build": "vue-cli-service build",
+        "test:unit": "vue-cli-service test:unit",
+        "lint": "vue-cli-service lint",
+        "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,vue,json,css,scss,less,md}\" "
+    },
+    "dependencies": {
+        "ant-design-vue": "^1.6.3",
+        "axios": "^0.19.2",
+        "core-js": "^2.6.11",
+        "echarts": "^4.9.0",
+        "ema-proxy": "1.0.1",
+        "eslint-plugin-prettier": "^3.2.0",
+        "file-saver": "^2.0.2",
+        "html-loader": "^0.5.5",
+        "js-cookie": "^2.2.1",
+        "lodash": "^4.17.20",
+        "markdown-loader": "^5.1.0",
+        "moment": "^2.29.1",
+        "prettier": "^2.2.1",
+        "qrcodejs2": "0.0.2",
+        "showdown": "^1.9.1",
+        "sockjs-client": "^1.5.1",
+        "stompjs": "^2.3.3",
+        "v-jsoneditor": "^1.4.4",
+        "vue": "^2.6.11",
+        "vue-json-excel": "^0.3.0",
+        "vue-router": "^3.3.4",
+        "vue-template-compiler": "^2.6.11",
+        "vuex": "^3.5.1",
+        "xlsx": "^0.14.5"
+    },
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "^3.12.1",
+        "@vue/cli-plugin-eslint": "^4.4.6",
+        "@vue/cli-plugin-unit-jest": "^4.5.4",
+        "@vue/cli-service": "^4.4.6",
+        "@vue/eslint-config-prettier": "^4.0.1",
+        "@vue/test-utils": "^1.0.3",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^5.16.0",
+        "eslint-plugin-vue": "^5.2.3",
+        "less": "^3.11.3",
+        "less-loader": "^4.1.0",
+        "vue-loader": "^15.9.3"
+    },
+    "eslintConfig": {
+        "root": true,
+        "env": {
+            "node": true
+        },
+        "extends": [
+            "plugin:vue/essential",
+            "@vue/prettier"
+        ],
+        "rules": {
+            "no-unused-vars": 0,
+            "no-console": 0,
+            "no-debugger": "off",
+            "no-extra-boolean-cast": 0
+        },
+        "parserOptions": {
+            "parser": "babel-eslint"
+        },
+        "overrides": [
+            {
+                "files": [
+                    "**/__tests__/*.{j,t}s?(x)",
+                    "**/tests/unit/**/*.spec.{j,t}s?(x)"
+                ],
+                "env": {
+                    "jest": true
+                }
+            }
+        ]
+    },
+    "prettier": {
+        "jsxBracketSameLine": false,
+        "singleQuote": true,
+        "semi": false,
+        "tabWidth": 4,
+        "printWidth": 200,
+        "bracketSpacing": true,
+        "vueIndentScriptAndStyle": false,
+        "arrowParens": "avoid",
+        "endOfLine": "lf"
+    },
+    "postcss": {
+        "plugins": {
+            "autoprefixer": {}
+        }
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not ie <= 8"
+    ]
+}

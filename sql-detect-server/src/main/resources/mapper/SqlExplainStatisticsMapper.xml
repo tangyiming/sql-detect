@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangym.sql.server.mapper.SqlExplainStatisticsMapper">
+    <resultMap id="BaseResultMap" type="com.tangym.sql.server.entity.SqlExplainStatistics">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="service_name" jdbcType="VARCHAR" property="serviceName"/>
+        <result column="health" jdbcType="VARCHAR" property="health"/>
+        <result column="slow_percent" jdbcType="VARCHAR" property="slowPercent"/>
+        <result column="latest_slow_in_seven" jdbcType="INTEGER" property="latestSlowInSeven"/>
+        <result column="slow_total" jdbcType="INTEGER" property="slowTotal"/>
+        <result column="explain_total" jdbcType="INTEGER" property="explainTotal"/>
+        <result column="calc_time" jdbcType="TIMESTAMP" property="calcTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , service_name, health, slow_percent, latest_slow_in_seven, slow_total, explain_total, calc_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sql_explain_statistics
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByServiceNames" resultType="com.tangym.sql.server.entity.SqlExplainStatistics">
+        select * from sql_explain_statistics
+        <where>
+            <if test="apps!=null and apps.size()>0">
+                AND service_name IN
+                <foreach collection="apps" item="item" index="index" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from sql_explain_statistics
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id"
+            parameterType="com.tangym.sql.server.entity.SqlExplainStatistics" useGeneratedKeys="true">
+        insert into sql_explain_statistics (service_name, health, slow_percent,
+                                            latest_slow_in_seven, slow_total, explain_total, calc_time)
+        values (#{serviceName,jdbcType=VARCHAR}, #{health,jdbcType=VARCHAR}, #{slowPercent,jdbcType=VARCHAR},
+                #{latestSlowInSeven,jdbcType=INTEGER}, #{slowTotal,jdbcType=INTEGER}, #{explainTotal,jdbcType=INTEGER},
+                #{calcTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.tangym.sql.server.entity.SqlExplainStatistics" useGeneratedKeys="true">
+        insert into sql_explain_statistics
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serviceName != null">
+                service_name,
+            </if>
+            <if test="health != null">
+                health,
+            </if>
+            <if test="slowPercent != null">
+                slow_percent,
+            </if>
+            <if test="latestSlowInSeven != null">
+                latest_slow_in_seven,
+            </if>
+            <if test="slowTotal != null">
+                slow_total,
+            </if>
+            <if test="explainTotal != null">
+                explain_total,
+            </if>
+            <if test="calcTime != null">
+                calc_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serviceName != null">
+                #{serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="health != null">
+                #{health,jdbcType=VARCHAR},
+            </if>
+            <if test="slowPercent != null">
+                #{slowPercent,jdbcType=VARCHAR},
+            </if>
+            <if test="latestSlowInSeven != null">
+                #{latestSlowInSeven,jdbcType=INTEGER},
+            </if>
+            <if test="slowTotal != null">
+                #{slowTotal,jdbcType=INTEGER},
+            </if>
+            <if test="explainTotal != null">
+                #{explainTotal,jdbcType=INTEGER},
+            </if>
+            <if test="calcTime != null">
+                #{calcTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tangym.sql.server.entity.SqlExplainStatistics">
+        update sql_explain_statistics
+        <set>
+            <if test="serviceName != null">
+                service_name = #{serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="health != null">
+                health = #{health,jdbcType=VARCHAR},
+            </if>
+            <if test="slowPercent != null">
+                slow_percent = #{slowPercent,jdbcType=VARCHAR},
+            </if>
+            <if test="latestSlowInSeven != null">
+                latest_slow_in_seven = #{latestSlowInSeven,jdbcType=INTEGER},
+            </if>
+            <if test="slowTotal != null">
+                slow_total = #{slowTotal,jdbcType=INTEGER},
+            </if>
+            <if test="explainTotal != null">
+                explain_total = #{explainTotal,jdbcType=INTEGER},
+            </if>
+            <if test="calcTime != null">
+                calc_time = #{calcTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tangym.sql.server.entity.SqlExplainStatistics">
+        update sql_explain_statistics
+        set service_name         = #{serviceName,jdbcType=VARCHAR},
+            health               = #{health,jdbcType=VARCHAR},
+            slow_percent         = #{slowPercent,jdbcType=VARCHAR},
+            latest_slow_in_seven = #{latestSlowInSeven,jdbcType=INTEGER},
+            slow_total           = #{slowTotal,jdbcType=INTEGER},
+            explain_total        = #{explainTotal,jdbcType=INTEGER},
+            calc_time            = #{calcTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByServiceName">
+        update sql_explain_statistics
+        set health               = #{health,jdbcType=VARCHAR},
+            slow_percent         = #{slowPercent,jdbcType=VARCHAR},
+            latest_slow_in_seven = #{latestSlowInSeven,jdbcType=INTEGER},
+            slow_total           = #{slowTotal,jdbcType=INTEGER},
+            explain_total        = #{explainTotal,jdbcType=INTEGER},
+            calc_time            = #{calcTime,jdbcType=TIMESTAMP}
+        where service_name = #{serviceName,jdbcType=VARCHAR}
+    </update>
+</mapper>

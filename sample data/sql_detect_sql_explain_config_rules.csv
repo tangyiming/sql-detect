@@ -1,0 +1,2 @@
+1,SQL拦截语句规则,"{""capture"":[""select""]}",capture
+2,慢SQL判断规则,"{""keySet"":[""NULL""],""typeSet"":[""index"",""ALL""]}",criteria

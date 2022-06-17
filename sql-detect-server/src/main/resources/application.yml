@@ -1,0 +1,30 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /detect
+    application-display-name: detect
+
+spring:
+  application:
+    name: sql-detect-server
+  datasource:
+    hikari:
+      jdbc-url: jdbc:mysql://localhost:3306/sql_detect?serverTimezone=UTC&characterEncoding=utf8&allowMultiQueries=true&autoReconnect=true&useAffectedRows=true&useSSL=false
+      username: root
+      password: root
+      driver-class-name: com.mysql.jdbc.Driver
+      minimum-idle: 5
+      maximum-pool-size: 30
+  dinger:
+    # 开启插件的服务需要配置 spring.application.name
+    project-id: ${spring.application.name}
+    dingers:
+      # 使用钉钉机器人, 请根据自己机器人配置信息进行修改
+      dingtalk:
+        tokenId: b0b3f14df2ee8e8f0003c3490586f36889ea01aff5f96011f3f8cdd2811cdd16
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

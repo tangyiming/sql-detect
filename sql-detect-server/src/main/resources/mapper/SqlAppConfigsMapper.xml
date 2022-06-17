@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangym.sql.server.mapper.SqlAppConfigsMapper">
+    <resultMap id="BaseResultMap" type="com.tangym.sql.server.entity.SqlAppConfigs">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="service" jdbcType="VARCHAR" property="service"/>
+        <result column="explain_switch" jdbcType="BOOLEAN" property="explainSwitch"/>
+        <result column="users" jdbcType="VARCHAR" property="users"/>
+        <result column="ding_token" jdbcType="VARCHAR" property="dingToken"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , service, explain_switch, users, ding_token
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sql_app_configs
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectBySelective" resultType="com.tangym.sql.server.entity.SqlAppConfigs">
+        select
+        <include refid="Base_Column_List"/>
+        from sql_app_configs
+        <where>
+            <trim suffixOverrides=",">
+                <if test="service != null and service != ''">
+                    service like concat('%', #{service}, '%')
+                </if>
+                <if test="explainSwitch != null and explainSwitch != ''">
+                    and explain_switch like concat('%', #{explainSwitch}, '%')
+                </if>
+                <if test="users != null and users != ''">
+                    and users like concat('%', #{users}, '%')
+                </if>
+                <if test="dingToken != null and dingToken != ''">
+                    and ding_token like concat('%', #{dingToken}, '%')
+                </if>
+            </trim>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from sql_app_configs
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.tangym.sql.server.entity.SqlAppConfigs"
+            useGeneratedKeys="true">
+        insert into sql_app_configs (service, explain_switch, users,
+                                     ding_token)
+        values (#{service,jdbcType=VARCHAR}, #{explainSwitch,jdbcType=BOOLEAN}, #{users,jdbcType=VARCHAR},
+                #{dingToken,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.tangym.sql.server.entity.SqlAppConfigs" useGeneratedKeys="true">
+        insert into sql_app_configs
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="service != null">
+                service,
+            </if>
+            <if test="explainSwitch != null">
+                explain_switch,
+            </if>
+            <if test="users != null">
+                users,
+            </if>
+            <if test="dingToken != null">
+                ding_token,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="service != null">
+                #{service,jdbcType=VARCHAR},
+            </if>
+            <if test="explainSwitch != null">
+                #{explainSwitch,jdbcType=BOOLEAN},
+            </if>
+            <if test="users != null">
+                #{users,jdbcType=VARCHAR},
+            </if>
+            <if test="dingToken != null">
+                #{dingToken,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tangym.sql.server.entity.SqlAppConfigs">
+        update sql_app_configs
+        <set>
+            <if test="service != null">
+                service = #{service,jdbcType=VARCHAR},
+            </if>
+            <if test="explainSwitch != null">
+                explain_switch = #{explainSwitch,jdbcType=BOOLEAN},
+            </if>
+            <if test="users != null">
+                users = #{users,jdbcType=VARCHAR},
+            </if>
+            <if test="dingToken != null">
+                ding_token = #{dingToken,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tangym.sql.server.entity.SqlAppConfigs">
+        update sql_app_configs
+        set service        = #{service,jdbcType=VARCHAR},
+            explain_switch = #{explainSwitch,jdbcType=BOOLEAN},
+            users          = #{users,jdbcType=VARCHAR},
+            ding_token     = #{dingToken,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangym.sql.server.mapper.SqlExplainInfoMapper">
+    <resultMap id="BaseResultMap" type="com.tangym.sql.server.entity.SqlExplainInfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="service_name" jdbcType="VARCHAR" property="serviceName"/>
+        <result column="original_sql" jdbcType="VARCHAR" property="originalSql"/>
+        <result column="parameterized_sql" jdbcType="VARCHAR" property="parameterizedSql"/>
+        <result column="server_version" jdbcType="INTEGER" property="serverVersion"/>
+        <result column="explain_res" jdbcType="OTHER" property="explainRes"/>
+        <result column="is_slow" jdbcType="BOOLEAN" property="isSlow"/>
+        <result column="is_prod_fault" jdbcType="BOOLEAN" property="isProdFault"/>
+        <result column="db_host" jdbcType="VARCHAR" property="dbHost"/>
+        <result column="db_port" jdbcType="VARCHAR" property="dbPort"/>
+        <result column="db_name" jdbcType="VARCHAR" property="dbName"/>
+        <result column="db_user" jdbcType="VARCHAR" property="dbUser"/>
+        <result column="db_pwd" jdbcType="VARCHAR" property="dbPwd"/>
+        <result column="is_failed" jdbcType="INTEGER" property="isFailed"/>
+        <result column="is_alert" jdbcType="BOOLEAN" property="isAlert"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="tb_fingerprints" jdbcType="VARCHAR" property="tbFingerprints"/>
+        <result column="original_sql_hash" jdbcType="VARCHAR" property="originalSqlHash"/>
+        <result column="sql_id" jdbcType="VARCHAR" property="sqlId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , service_name, original_sql, parameterized_sql, server_version, explain_res, is_slow,
+    is_prod_fault, db_host, db_port, db_name, db_user, db_pwd, is_failed, is_alert, remark,
+    create_time, update_time, tb_fingerprints, original_sql_hash,sql_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sql_explain_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="queryByConditions" resultType="com.tangym.sql.server.entity.SqlExplainInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from sql_explain_info
+        <where>
+            <trim suffixOverrides=",">
+                <if test="sqlExplainInfo.serviceName != null and sqlExplainInfo.serviceName != ''">
+                    service_name like concat('%', #{sqlExplainInfo.serviceName}, '%')
+                </if>
+                <if test="sqlExplainInfo.originalSql != null and sqlExplainInfo.originalSql != ''">
+                    and original_sql like concat('%', #{sqlExplainInfo.originalSql}, '%')
+                </if>
+                <if test="sqlExplainInfo.parameterizedSql != null and sqlExplainInfo.parameterizedSql != ''">
+                    and parameterized_sql like concat('%', #{sqlExplainInfo.parameterizedSql}, '%')
+                </if>
+                <if test="sqlExplainInfo.isSlow != null and sqlExplainInfo.isSlow != ''">
+                    and is_slow = #{sqlExplainInfo.isSlow}
+                </if>
+                <if test="sqlExplainInfo.isProdFault != null and sqlExplainInfo.isProdFault != ''">
+                    and is_prod_fault = #{sqlExplainInfo.isProdFault}
+                </if>
+                <if test="sqlExplainInfo.dbName != null and sqlExplainInfo.dbName != ''">
+                    and db_name = #{sqlExplainInfo.dbName}
+                </if>
+                <if test="sqlExplainInfo.isAlert != null and sqlExplainInfo.isAlert != ''">
+                    and is_alert = #{sqlExplainInfo.isAlert}
+                </if>
+                <if test="sqlExplainInfo.sqlId != null and sqlExplainInfo.sqlId != ''">
+                    and sql_id = #{sqlExplainInfo.sqlId}
+                </if>
+                <if test="startTime != null">
+                    and create_time &gt;= #{startTime,jdbcType=TIMESTAMP}
+                </if>
+                <if test="endTime != null">
+                    and create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+                </if>
+            </trim>
+        </where>
+        order by id DESC
+    </select>
+    <select id="countCheckedByService" resultType="java.lang.Integer">
+        select count(id) from sql_explain_info
+        <where>
+            <trim suffixOverrides=",">
+                <if test="app != null and app != ''">
+                    service_name = #{app}
+                </if>
+                and explain_res is not null
+                <if test="lastCalcTime != null">
+                    and update_time >= #{lastCalcTime}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <select id="countSlowSqlByService" resultType="java.lang.Integer">
+        select count(id) from sql_explain_info
+        <where>
+            <trim suffixOverrides=",">
+                <if test="app != null and app != ''">
+                    service_name = #{app}
+                </if>
+                and is_slow=true
+                <if test="lastCalcTime != null">
+                    and update_time >= #{lastCalcTime}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from sql_explain_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.tangym.sql.server.entity.SqlExplainInfo"
+            useGeneratedKeys="true">
+        insert into sql_explain_info (service_name, original_sql, parameterized_sql,
+                                      server_version, explain_res, is_slow,
+                                      is_prod_fault, db_host, db_port,
+                                      db_name, db_user, db_pwd,
+                                      is_failed, is_alert, remark,
+                                      create_time, update_time, tb_fingerprints, original_sql_hash, sql_id)
+        values (#{serviceName,jdbcType=VARCHAR}, #{originalSql,jdbcType=VARCHAR}, #{parameterizedSql,jdbcType=VARCHAR},
+                #{serverVersion,jdbcType=INTEGER}, #{explainRes,jdbcType=VARCHAR}, #{isSlow,jdbcType=BOOLEAN},
+                #{isProdFault,jdbcType=BOOLEAN}, #{dbHost,jdbcType=VARCHAR}, #{dbPort,jdbcType=VARCHAR},
+                #{dbName,jdbcType=VARCHAR}, #{dbUser,jdbcType=VARCHAR}, #{dbPwd,jdbcType=VARCHAR},
+                #{isFailed,jdbcType=INTEGER}, #{isAlert,jdbcType=BOOLEAN}, #{remark,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{tbFingerprints,jdbcType=VARCHAR},
+                #{originalSqlHash,jdbcType=VARCHAR}, #{sqlId,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.tangym.sql.server.entity.SqlExplainInfo" useGeneratedKeys="true">
+        insert into sql_explain_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serviceName != null">
+                service_name,
+            </if>
+            <if test="originalSql != null">
+                original_sql,
+            </if>
+            <if test="parameterizedSql != null">
+                parameterized_sql,
+            </if>
+            <if test="serverVersion != null">
+                server_version,
+            </if>
+            <if test="explainRes != null">
+                explain_res,
+            </if>
+            <if test="isSlow != null">
+                is_slow,
+            </if>
+            <if test="isProdFault != null">
+                is_prod_fault,
+            </if>
+            <if test="dbHost != null">
+                db_host,
+            </if>
+            <if test="dbPort != null">
+                db_port,
+            </if>
+            <if test="dbName != null">
+                db_name,
+            </if>
+            <if test="dbUser != null">
+                db_user,
+            </if>
+            <if test="dbPwd != null">
+                db_pwd,
+            </if>
+            <if test="isFailed != null">
+                is_failed,
+            </if>
+            <if test="isAlert != null">
+                is_alert,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="tbFingerprints != null">
+                tb_fingerprints,
+            </if>
+            <if test="originalSqlHash != null">
+                original_sql_hash,
+            </if>
+            <if test="sqlId != null">
+                sql_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serviceName != null">
+                #{serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="originalSql != null">
+                #{originalSql,jdbcType=VARCHAR},
+            </if>
+            <if test="parameterizedSql != null">
+                #{parameterizedSql,jdbcType=VARCHAR},
+            </if>
+            <if test="serverVersion != null">
+                #{serverVersion,jdbcType=INTEGER},
+            </if>
+            <if test="explainRes != null">
+                #{explainRes,jdbcType=VARCHAR},
+            </if>
+            <if test="isSlow != null">
+                #{isSlow,jdbcType=BOOLEAN},
+            </if>
+            <if test="isProdFault != null">
+                #{isProdFault,jdbcType=BOOLEAN},
+            </if>
+            <if test="dbHost != null">
+                #{dbHost,jdbcType=VARCHAR},
+            </if>
+            <if test="dbPort != null">
+                #{dbPort,jdbcType=VARCHAR},
+            </if>
+            <if test="dbName != null">
+                #{dbName,jdbcType=VARCHAR},
+            </if>
+            <if test="dbUser != null">
+                #{dbUser,jdbcType=VARCHAR},
+            </if>
+            <if test="dbPwd != null">
+                #{dbPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="isFailed != null">
+                #{isFailed,jdbcType=INTEGER},
+            </if>
+            <if test="isAlert != null">
+                #{isAlert,jdbcType=BOOLEAN},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="tbFingerprints != null">
+                #{tbFingerprints,jdbcType=VARCHAR},
+            </if>
+            <if test="originalSqlHash != null">
+                #{originalSqlHash,jdbcType=VARCHAR},
+            </if>
+            <if test="sqlId != null">
+                #{sqlId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tangym.sql.server.entity.SqlExplainInfo">
+        update sql_explain_info
+        <set>
+            <if test="serviceName != null">
+                service_name = #{serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="originalSql != null">
+                original_sql = #{originalSql,jdbcType=VARCHAR},
+            </if>
+            <if test="parameterizedSql != null">
+                parameterized_sql = #{parameterizedSql,jdbcType=VARCHAR},
+            </if>
+            <if test="serverVersion != null">
+                server_version = #{serverVersion,jdbcType=INTEGER},
+            </if>
+            <if test="explainRes != null">
+                explain_res = #{explainRes,jdbcType=VARCHAR},
+            </if>
+            <if test="isSlow != null">
+                is_slow = #{isSlow,jdbcType=BOOLEAN},
+            </if>
+            <if test="isProdFault != null">
+                is_prod_fault = #{isProdFault,jdbcType=BOOLEAN},
+            </if>
+            <if test="dbHost != null">
+                db_host = #{dbHost,jdbcType=VARCHAR},
+            </if>
+            <if test="dbPort != null">
+                db_port = #{dbPort,jdbcType=VARCHAR},
+            </if>
+            <if test="dbName != null">
+                db_name = #{dbName,jdbcType=VARCHAR},
+            </if>
+            <if test="dbUser != null">
+                db_user = #{dbUser,jdbcType=VARCHAR},
+            </if>
+            <if test="dbPwd != null">
+                db_pwd = #{dbPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="isFailed != null">
+                is_failed = #{isFailed,jdbcType=INTEGER},
+            </if>
+            <if test="isAlert != null">
+                is_alert = #{isAlert,jdbcType=BOOLEAN},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="tbFingerprints != null">
+                tb_fingerprints = #{tbFingerprints,jdbcType=VARCHAR},
+            </if>
+            <if test="originalSqlHash != null">
+                original_sql_hash = #{originalSqlHash,jdbcType=VARCHAR},
+            </if>
+            <if test="sqlId != null">
+                sql_id = #{sqlId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tangym.sql.server.entity.SqlExplainInfo">
+        update sql_explain_info
+        set service_name      = #{serviceName,jdbcType=VARCHAR},
+            original_sql      = #{originalSql,jdbcType=VARCHAR},
+            parameterized_sql = #{parameterizedSql,jdbcType=VARCHAR},
+            server_version    = #{serverVersion,jdbcType=INTEGER},
+            explain_res       = #{explainRes,jdbcType=VARCHAR},
+            is_slow           = #{isSlow,jdbcType=BOOLEAN},
+            is_prod_fault     = #{isProdFault,jdbcType=BOOLEAN},
+            db_host           = #{dbHost,jdbcType=VARCHAR},
+            db_port           = #{dbPort,jdbcType=VARCHAR},
+            db_name           = #{dbName,jdbcType=VARCHAR},
+            db_user           = #{dbUser,jdbcType=VARCHAR},
+            db_pwd            = #{dbPwd,jdbcType=VARCHAR},
+            is_failed         = #{isFailed,jdbcType=INTEGER},
+            is_alert          = #{isAlert,jdbcType=BOOLEAN},
+            remark            = #{remark,jdbcType=VARCHAR},
+            create_time       = #{createTime,jdbcType=TIMESTAMP},
+            update_time       = #{updateTime,jdbcType=TIMESTAMP},
+            tb_fingerprints   = #{tbFingerprints,jdbcType=VARCHAR},
+            original_sql_hash = #{originalSqlHash,jdbcType=VARCHAR},
+            sql_id            = #{sqlId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

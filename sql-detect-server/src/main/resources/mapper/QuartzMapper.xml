@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangym.sql.server.mapper.QuartzMapper">
+    <resultMap id="BaseResultMap" type="com.tangym.sql.server.entity.Quartz">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="job_name" jdbcType="VARCHAR" property="jobName"/>
+        <result column="job_class" jdbcType="VARCHAR" property="jobClass"/>
+        <result column="cron_expression" jdbcType="VARCHAR" property="cronExpression"/>
+        <result column="run_after_start" jdbcType="BOOLEAN" property="runAfterStart"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , job_name, job_class, cron_expression, run_after_start
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from quartz
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from quartz
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.tangym.sql.server.entity.Quartz"
+            useGeneratedKeys="true">
+        insert into quartz (job_name, job_class, cron_expression,
+                            run_after_start)
+        values (#{jobName,jdbcType=VARCHAR}, #{jobClass,jdbcType=VARCHAR}, #{cronExpression,jdbcType=VARCHAR},
+                #{runAfterStart,jdbcType=BOOLEAN})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.tangym.sql.server.entity.Quartz"
+            useGeneratedKeys="true">
+        insert into quartz
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jobName != null">
+                job_name,
+            </if>
+            <if test="jobClass != null">
+                job_class,
+            </if>
+            <if test="cronExpression != null">
+                cron_expression,
+            </if>
+            <if test="runAfterStart != null">
+                run_after_start,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jobName != null">
+                #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="jobClass != null">
+                #{jobClass,jdbcType=VARCHAR},
+            </if>
+            <if test="cronExpression != null">
+                #{cronExpression,jdbcType=VARCHAR},
+            </if>
+            <if test="runAfterStart != null">
+                #{runAfterStart,jdbcType=BOOLEAN},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tangym.sql.server.entity.Quartz">
+        update quartz
+        <set>
+            <if test="jobName != null">
+                job_name = #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="jobClass != null">
+                job_class = #{jobClass,jdbcType=VARCHAR},
+            </if>
+            <if test="cronExpression != null">
+                cron_expression = #{cronExpression,jdbcType=VARCHAR},
+            </if>
+            <if test="runAfterStart != null">
+                run_after_start = #{runAfterStart,jdbcType=BOOLEAN},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tangym.sql.server.entity.Quartz">
+        update quartz
+        set job_name        = #{jobName,jdbcType=VARCHAR},
+            job_class       = #{jobClass,jdbcType=VARCHAR},
+            cron_expression = #{cronExpression,jdbcType=VARCHAR},
+            run_after_start = #{runAfterStart,jdbcType=BOOLEAN}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

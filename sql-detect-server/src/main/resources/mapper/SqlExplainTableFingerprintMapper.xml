@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangym.sql.server.mapper.SqlExplainTableFingerprintMapper">
+    <resultMap id="BaseResultMap" type="com.tangym.sql.server.entity.SqlExplainTableFingerprint">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="db_name" jdbcType="VARCHAR" property="dbName"/>
+        <result column="db_host" jdbcType="VARCHAR" property="dbHost"/>
+        <result column="db_port" jdbcType="VARCHAR" property="dbPort"/>
+        <result column="db_user" jdbcType="VARCHAR" property="dbUser"/>
+        <result column="db_pwd" jdbcType="VARCHAR" property="dbPwd"/>
+        <result column="tb_name" jdbcType="VARCHAR" property="tbName"/>
+        <result column="fingerprint" jdbcType="VARCHAR" property="fingerprint"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , db_name, db_host, db_port, db_user, db_pwd, tb_name, fingerprint, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sql_explain_table_fingerprint
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectBySelective" resultType="com.tangym.sql.server.entity.SqlExplainTableFingerprint">
+        select
+        <include refid="Base_Column_List"/>
+        from sql_explain_table_fingerprint
+        <where>
+            <trim suffixOverrides=",">
+                <if test="dbName != null and dbName != ''">
+                    db_name like concat('%', #{dbName}, '%')
+                </if>
+                <if test="dbHost != null and dbHost != ''">
+                    and db_host like concat('%', #{dbHost}, '%')
+                </if>
+                <if test="dbPort != null and dbPort != ''">
+                    and db_port like concat('%', #{dbPort}, '%')
+                </if>
+                <if test="dbUser != null and dbUser != ''">
+                    and db_user like concat('%', #{dbUser}, '%')
+                </if>
+                <if test="dbPwd != null and dbPwd != ''">
+                    and db_pwd like concat('%', #{dbPwd}, '%')
+                </if>
+                <if test="tbName != null and tbName != ''">
+                    and tb_name like concat('%', #{tbName}, '%')
+                </if>
+                <if test="fingerprint != null and fingerprint != ''">
+                    and fingerprint like concat('%', #{fingerprint}, '%')
+                </if>
+            </trim>
+        </where>
+    </select>
+    <select id="selectByDbAndTableName"
+            resultType="com.tangym.sql.server.entity.SqlExplainTableFingerprint">
+        select
+        <include refid="Base_Column_List"/>
+        from sql_explain_table_fingerprint
+        <where>
+            db_name = #{dbName}
+            and tb_name = #{tbName}
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from sql_explain_table_fingerprint
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id"
+            parameterType="com.tangym.sql.server.entity.SqlExplainTableFingerprint" useGeneratedKeys="true">
+        insert into sql_explain_table_fingerprint (db_name, db_host, db_port,
+                                                   db_user, db_pwd, tb_name,
+                                                   fingerprint, create_time, update_time)
+        values (#{dbName,jdbcType=VARCHAR}, #{dbHost,jdbcType=VARCHAR}, #{dbPort,jdbcType=VARCHAR},
+                #{dbUser,jdbcType=VARCHAR}, #{dbPwd,jdbcType=VARCHAR}, #{tbName,jdbcType=VARCHAR},
+                #{fingerprint,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.tangym.sql.server.entity.SqlExplainTableFingerprint" useGeneratedKeys="true">
+        insert into sql_explain_table_fingerprint
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dbName != null">
+                db_name,
+            </if>
+            <if test="dbHost != null">
+                db_host,
+            </if>
+            <if test="dbPort != null">
+                db_port,
+            </if>
+            <if test="dbUser != null">
+                db_user,
+            </if>
+            <if test="dbPwd != null">
+                db_pwd,
+            </if>
+            <if test="tbName != null">
+                tb_name,
+            </if>
+            <if test="fingerprint != null">
+                fingerprint,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dbName != null">
+                #{dbName,jdbcType=VARCHAR},
+            </if>
+            <if test="dbHost != null">
+                #{dbHost,jdbcType=VARCHAR},
+            </if>
+            <if test="dbPort != null">
+                #{dbPort,jdbcType=VARCHAR},
+            </if>
+            <if test="dbUser != null">
+                #{dbUser,jdbcType=VARCHAR},
+            </if>
+            <if test="dbPwd != null">
+                #{dbPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="tbName != null">
+                #{tbName,jdbcType=VARCHAR},
+            </if>
+            <if test="fingerprint != null">
+                #{fingerprint,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tangym.sql.server.entity.SqlExplainTableFingerprint">
+        update sql_explain_table_fingerprint
+        <set>
+            <if test="dbName != null">
+                db_name = #{dbName,jdbcType=VARCHAR},
+            </if>
+            <if test="dbHost != null">
+                db_host = #{dbHost,jdbcType=VARCHAR},
+            </if>
+            <if test="dbPort != null">
+                db_port = #{dbPort,jdbcType=VARCHAR},
+            </if>
+            <if test="dbUser != null">
+                db_user = #{dbUser,jdbcType=VARCHAR},
+            </if>
+            <if test="dbPwd != null">
+                db_pwd = #{dbPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="tbName != null">
+                tb_name = #{tbName,jdbcType=VARCHAR},
+            </if>
+            <if test="fingerprint != null">
+                fingerprint = #{fingerprint,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tangym.sql.server.entity.SqlExplainTableFingerprint">
+        update sql_explain_table_fingerprint
+        set db_name     = #{dbName,jdbcType=VARCHAR},
+            db_host     = #{dbHost,jdbcType=VARCHAR},
+            db_port     = #{dbPort,jdbcType=VARCHAR},
+            db_user     = #{dbUser,jdbcType=VARCHAR},
+            db_pwd      = #{dbPwd,jdbcType=VARCHAR},
+            tb_name     = #{tbName,jdbcType=VARCHAR},
+            fingerprint = #{fingerprint,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
