@@ -10,6 +10,7 @@ import net.bytebuddy.matcher.ElementMatcher;
 import static net.bytebuddy.matcher.ElementMatchers.named;
 
 /**
+ * 增强jdbc驱动 获取sql信息
  * @author :       yiming.tang
  */
 @AutoService(PluginDefine.class)

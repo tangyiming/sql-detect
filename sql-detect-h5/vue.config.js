@@ -33,9 +33,8 @@ module.exports = {
         proxy: {
             '/detect': {
                 //本地
-                target: 'http://web.xxx.com:8080/detect/',
-                //线上
-                //target: 'http://tangram.xxx.com/detect/',
+                target: 'http://localhost:8080/detect/',
+                //target: 'http://xxx.xxx.com/detect/',
                 ws: false,
                 changOrigin: true,
                 secure: true,

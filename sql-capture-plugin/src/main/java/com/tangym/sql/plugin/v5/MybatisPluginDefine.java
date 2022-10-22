@@ -10,6 +10,7 @@ import net.bytebuddy.matcher.ElementMatcher;
 import static net.bytebuddy.matcher.ElementMatchers.named;
 
 /**
+ * 增强mybatis，获取sql id
  * @author :       yiming.tang
  */
 @AutoService(PluginDefine.class)
