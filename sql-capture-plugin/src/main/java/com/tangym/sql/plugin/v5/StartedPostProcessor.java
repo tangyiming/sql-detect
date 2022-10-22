@@ -21,9 +21,9 @@ public class StartedPostProcessor implements BeanDefinitionRegistryProcessor {
 
     @Override
     public void process(BeanDefinitionRegistry registry) {
-        String serverUrl = "https://www.xxx.com";
+        String serverUrl = "";
         if (AgentOptions.INSTANCE.isLocalDebug()) {
-            serverUrl = "https://dev-firefly.amh-group.com/test-platform-app";
+            serverUrl = "http://127.0.0.1:8080/detect";
         }
         String detail = HttpUtil.get(String.format("%s/sql/config/rules/capture", serverUrl));
         if (null != detail) {

@@ -30,6 +30,8 @@ public class PreparedStatement5xAdvice implements Advice {
             String ORIGINALSQL = formatSql(preparedStatement.getPreparedSql());
             String SQL = formatSql(preparedStatement.asSql());
             String start = ORIGINALSQL.split(" ")[0];
+
+            // 自动分库分表中间件带入参数处理，如逻辑不同请自我修改或删除
             if (start.startsWith("/*")) {
                 start = start.split("\\/")[2];
                 ORIGINALSQL = ORIGINALSQL.split("\\/")[2];
