@@ -34,10 +34,23 @@ public class SqlExplainStatisticsTask extends QuartzJobBean {
         apps.forEach(app -> {
             LocalDateTime now = LocalDateTime.now();
             SqlExplainStatistics statistics = sqlExplainStatisticsMapper.selectByServiceName(app);
-            LocalDateTime lastCalcTime = statistics.getCalcTime();
-            Integer explainTotal = statistics.getExplainTotal();
-            if (null == explainTotal) {
+            LocalDateTime lastCalcTime;
+            Integer explainTotal;
+            Integer slow;
+            if (null != statistics) {
+                lastCalcTime = statistics.getCalcTime();
+                explainTotal = statistics.getExplainTotal();
+                if (null == explainTotal) {
+                    explainTotal = 0;
+                }
+                slow = statistics.getSlowTotal();
+                if (null == slow) {
+                    slow = 0;
+                }
+            } else {
+                lastCalcTime = null;
                 explainTotal = 0;
+                slow = 0;
             }
             int checkedCount = sqlExplainInfoMapper.countCheckedByService(app, lastCalcTime);
             int checkedTotal = explainTotal + checkedCount;
@@ -45,10 +58,6 @@ public class SqlExplainStatisticsTask extends QuartzJobBean {
             int slowTotal = 0;
             String percent = "0.00";
             if (checkedTotal != 0) {
-                Integer slow = statistics.getSlowTotal();
-                if (null == slow) {
-                    slow = 0;
-                }
                 int slowCount = sqlExplainInfoMapper.countSlowSqlByService(app, lastCalcTime);
                 slowTotal = slow + slowCount;
                 DecimalFormat df = new DecimalFormat("0.00");
