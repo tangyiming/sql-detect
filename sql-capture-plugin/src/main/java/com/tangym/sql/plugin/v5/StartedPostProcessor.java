@@ -21,6 +21,7 @@ public class StartedPostProcessor implements BeanDefinitionRegistryProcessor {
 
     @Override
     public void process(BeanDefinitionRegistry registry) {
+        // todo 根据生产情况调整域名配置
         String serverUrl = "";
         if (AgentOptions.INSTANCE.isLocalDebug()) {
             serverUrl = "http://127.0.0.1:8080/detect";
