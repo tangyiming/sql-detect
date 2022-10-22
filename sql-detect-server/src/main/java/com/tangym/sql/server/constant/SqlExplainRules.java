@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 慢查规则配置
+ */
 public class SqlExplainRules {
     public static Set<String> KEYSET = new HashSet<>(Arrays.asList("NULL"));
 

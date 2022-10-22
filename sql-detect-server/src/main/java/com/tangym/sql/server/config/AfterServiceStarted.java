@@ -63,9 +63,8 @@ public class AfterServiceStarted implements ApplicationRunner {
         List<String> allScripts = sqlExplainConfigRulesScriptMapper.selectAllScripts();
         if (null != sqlExplainConfigRules) SyncSqlExplainRules(sqlExplainConfigRules, allScripts);
 
-        // 如果是本地调试就别开启定时任务了，以系统信息判断
-        // 以部署环境系统名为判断
-        if (System.getProperty("os.name").equals("Linux")) {
+        // todo 本地调试是否开启定时任务，以部署环境系统名为判断
+        if ("Linux".equals(System.getProperty("os.name"))) {
             List<Quartz> quartzs = quartzMapper.selectAll();
             if (quartzs.size() > 0) {
                 quartzs.forEach(quartz -> {

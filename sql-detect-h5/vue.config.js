@@ -26,7 +26,7 @@ module.exports = {
     },
     devServer: {
         hot: true,
-        host: 'web.xxx.com',
+        // host: 'web.xxx.com',
         port: 8088,
         open: true,
         https: true,

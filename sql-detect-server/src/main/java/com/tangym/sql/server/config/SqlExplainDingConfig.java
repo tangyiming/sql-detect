@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.text.MessageFormat;
 
+/**
+ * 钉钉消息通知
+ */
 @Configuration
 public class SqlExplainDingConfig {
     @Bean
