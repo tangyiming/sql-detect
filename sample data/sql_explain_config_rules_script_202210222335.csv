@@ -1,2 +1,3 @@
+"id","script","remark"
 3,"null != explainResult.getExtra() && explainResult.getExtra().equalsIgnoreCase(""Impossible WHERE noticed after reading const tables"")","""extra"": ""Impossible WHERE noticed after reading const tables"" 这种结果判断改为非慢查"
 4,"null != explainResult.getSelectType() && explainResult.getSelectType().equalsIgnoreCase(""UNION RESULT"")","""selectType"": ""UNION RESULT"" 这种结果判断改为非慢查"

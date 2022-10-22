@@ -1,0 +1,2 @@
+"id","db_name","db_host","db_port","db_user","db_pwd","tb_name","fingerprint","create_time","update_time"
+3,sql_detect,localhost,"3306",root,root,demo_table,CD0C36336E6CDE12789E2AFCC20DEC68,"2022-10-22 23:06:01","2022-10-22 23:10:17"

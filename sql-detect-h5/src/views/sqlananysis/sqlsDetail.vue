@@ -140,10 +140,10 @@
                         {{ record.isProdFault ? '是' : '-' }}
                     </a-descriptions-item>
                     <a-descriptions-item label="上报时间">
-                        {{ record.createTime }}
+                        {{ record.createTime.replace("T"," ") }}
                     </a-descriptions-item>
                     <a-descriptions-item label="更新时间">
-                        {{ record.updateTime }}
+                        {{ record.updateTime.replace("T"," ") }}
                     </a-descriptions-item>
                 </a-descriptions>
             </template>
