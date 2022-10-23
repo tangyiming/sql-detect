@@ -1,9 +1,6 @@
-
-![我的微信](wechat.png)
-
-欢迎小伙伴们加我微信交流~ 如二维码过期可以加微信号：liveonce_91,注意备注来自B站或Github
-
 # 慢SQL检测
+
+>  *B站启动与使用演示视频*：https://www.bilibili.com/video/BV1EG4y1H7ov/
 
 这个平台我是阅读参考了Tester Home上文章 [使用插桩技术解决慢查询测试问题](https://testerhome.com/topics/29228) 后实现的，之前在公司内部使用，现在改造开源了出来。由于时间仓促，改造中如果导致了Bug，希望各位提Issue告诉我，或者你帮助我修改也可以。
 
@@ -132,7 +129,8 @@ explain 时，如果本条数据为慢查，查找相同original sql的上一条
 
 如果上一条为非慢（无论explain的结果还是人工修改的），且表hash的更新时间晚于上一条数据的创建时间，那么认为表结构有变更，标记为慢查；
 
+--- 
 
+![我的微信](wechat.png)
 
-
-
+欢迎小伙伴们加我微信交流~ 如二维码过期可以加微信号：liveonce_91,注意备注来自B站或Github
