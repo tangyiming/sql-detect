@@ -64,7 +64,7 @@
         </dependency>
         <dependency>
             <groupId>com.tangym</groupId>
-            <artifactId>gravity-spring-plugin</artifactId>
+            <artifactId>sql-spring-plugin</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
