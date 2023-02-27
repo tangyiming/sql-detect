@@ -29,7 +29,7 @@
 ## 准备工作
 1. 根据DDL文件里的语句，建数据库和数据表
 2. 导入sample data文件夹中的数据到响应库表中
-3. clone [Gravity](https://github.com/ymm-tech/gravity) 项目,并本地编译打包好agent包
+3. clone [Gravity](https://github.com/ymm-tech/gravity) 项目,并本地编译打包好agent包，以及后续所需的依赖gravity-plugin-api包
 4. Maven 打包好我们的插件 sql-capture-plugin 和 sql-spring-plugin
 5. 启动平台前后端
 6. 启动演示demo应用，启动前修改启动配置：-javaagent:/YOUR-PATH/gravity-agent.jar=appName=sql-service-demo,localDebug=true
