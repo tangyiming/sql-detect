@@ -1,3 +1,8 @@
+# 2025年更新
+建议服务接入Micrometer，使用 Prometheus 和 Grafana 制定 DB线程池，DB操作与耗时的监控与告警，就可以识别慢SQL，简单便捷，生产也可以大规模使用。 字节码这套别搞了，费劲没意义
+
+
+---
 # 慢SQL检测
 
 >  *B站启动与使用演示视频*：https://www.bilibili.com/video/BV1EG4y1H7ov/
